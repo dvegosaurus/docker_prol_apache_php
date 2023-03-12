@@ -43,6 +43,7 @@ services:
       context: ./nginx
     volumes: 
     - ./src/:/var/www/html
+    - ./certs/:$SSLFOLDERPATH
     ports:
     - 80:80
     - 443:443
