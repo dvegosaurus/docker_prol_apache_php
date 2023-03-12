@@ -1,0 +1,54 @@
+version: '3'
+
+services:
+  database:
+    build:
+      context: ./database
+    volumes:
+      - ./database/data/:/var/lib/mysql:rw
+      - ./database/data.sql:/docker-entrypoint-initdb.d/data.sql
+
+  webserver1:
+    build:
+      context: ./apache-php
+    volumes: 
+      - ./apache-php/sites/:/etc/apache2/sites-enabled
+      - ./src/:/var/www/html
+    # ports:
+    #   - 80:80
+    #   - 443:443
+  
+  webserver2:
+    build:
+      context: ./apache-php
+    volumes: 
+    - ./apache-php/sites/:/etc/apache2/sites-enabled
+    - ./src/:/var/www/html
+    # ports:
+    #   - 80:80
+    #   - 443:443
+  
+  webserver3:
+    build:
+      context: ./apache-php
+    volumes: 
+    - ./apache-php/sites/:/etc/apache2/sites-enabled
+    - ./src/:/var/www/html
+    # ports:
+    #   - 80:80
+    #   - 443:443
+
+  loadbalancer:
+    build:
+      context: ./nginx
+    volumes: 
+    - ./src/:/var/www/html
+    ports:
+    - 80:80
+    - 443:443
+  
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080

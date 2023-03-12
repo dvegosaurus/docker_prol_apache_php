@@ -1,0 +1,6 @@
+FROM php:8.0-apache
+WORKDIR /var/www/html
+COPY ./src/apache2.conf /etc/apache2/apache2.conf
+RUN docker-php-ext-install pdo_mysql 
+RUN a2enmod rewrite && a2enmod ssl && a2enmod socache_shmcb
+EXPOSE 80 443
